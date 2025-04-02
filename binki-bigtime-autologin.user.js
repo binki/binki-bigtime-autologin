@@ -19,10 +19,16 @@ function requireSelector(selector, maybeContext) {
 
 (async () => {
   if (document.URL.startsWith('https://app.bigtime.net/')) {
-    // This is really easy because these are prerendered pages.
+    // Ensure that “Remember me” is selected even if the user manually types something in.
+    const button = requireSelector('button[name="Input.Button"]');
+    button.addEventListener('click', e => {
+      requireSelector('#rememberMe').setAttribute('checked', 'checked');
+    });
+
+    // Wait for BigTime to autofill the input (it actually performs server-side pre-fill
+    // so this ends up not waiting) or someone to paste in.
     await whenInputCompletedAsync(requireSelector('#Input_EmailAddress'));
-    requireSelector('#rememberMe').setAttribute('checked', 'checked');
-    requireSelector('button[name="Input.Button"]').click();
+    button.click();
   } else if (document.URL.startsWith('https://intuit.bigtime.net/')) {
     // This is really easy because these are prerendered pages.
     await whenInputCompletedAsync(requireSelector('#SUserName'));
