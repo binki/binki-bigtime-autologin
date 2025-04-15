@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name binki-bigtime-autologin
-// @version 1.2.0
+// @version 1.2.1
 // @homepageURL https://github.com/binki/binki-bigtime-autologin
 // @match https://app.bigtime.net/auth/Account/Login*
 // @match https://intuit.bigtime.net/bigtime
@@ -29,7 +29,7 @@ function requireSelector(selector, maybeContext) {
     // so this ends up not waiting) or someone to paste in.
     await whenInputCompletedAsync(requireSelector('#Input_EmailAddress'));
     button.click();
-  } else if (document.URL.startsWith('https://intuit.bigtime.net/')) {
+  } else if (document.URL.toLowerCase().startsWith('https://intuit.bigtime.net/bigtime/myaccount/session/locallogin')) {
     // This is really easy because these are prerendered pages.
     await whenInputCompletedAsync(requireSelector('#SUserName'));
     await whenInputCompletedAsync(requireSelector('#SPassword'));
