@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name binki-bigtime-autologin
-// @version 1.2.1
+// @version 1.2.2
 // @homepageURL https://github.com/binki/binki-bigtime-autologin
 // @match https://app.bigtime.net/auth/Account/Login*
 // @match https://*.bigtime.net/bigtime
