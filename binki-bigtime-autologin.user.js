@@ -3,6 +3,7 @@
 // @version 1.2.2
 // @homepageURL https://github.com/binki/binki-bigtime-autologin
 // @match https://app.bigtime.net/auth/Account/Login*
+// @match https://app.bigtime.net/auth/Account/LocalLogin*
 // @match https://*.bigtime.net/bigtime
 // @match https://*.bigtime.net/bigtime/*
 // @match https://*.bigtime.net/Bigtime
@@ -22,7 +23,7 @@ function requireSelector(selector, maybeContext) {
     // We have to have a wildcard in the domain @match expression above because BigTime hosts
     // itself on an unknown number of arbitrarily-named subdomains such as intuit and iq. We
     // have to therefore do a negative match on “www.bigtime.net”.  See #3.
-  } else if (document.URL.startsWith('https://app.bigtime.net/')) {
+  } else if (document.URL.startsWith('https://app.bigtime.net/auth/Account/Login?')) {
     // Ensure that “Remember me” is selected even if the user manually types something in.
     const button = requireSelector('button[name="Input.Button"]');
     button.addEventListener('click', e => {
@@ -32,6 +33,10 @@ function requireSelector(selector, maybeContext) {
     // Wait for BigTime to autofill the input (it actually performs server-side pre-fill
     // so this ends up not waiting) or someone to paste in.
     await whenInputCompletedAsync(requireSelector('#Input_EmailAddress'));
+    button.click();
+  } else if (document.URL.startsWith('https://app.bigtime.net/auth/Account/LocalLogin?')) {
+    const button = requireSelector('button[name="Input.Button"]');
+    await whenInputCompletedAsync(requireSelector('#Input_Password'));
     button.click();
   } else if (/[^:]+:\/\/[^.]+\.bigtime.net\/bigtime\/myaccount\/session\/locallogin/.test(document.URL.toLowerCase())) {
     // This is really easy because these are prerendered pages.
